@@ -1,0 +1,43 @@
+﻿@model CRUDXimenaCastanedaEF.Models.LibrosAutore
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<h1 class="text-center mb-4">Crear Nuevo Libro Autor</h1>
+@Html.AntiForgeryToken()
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Create" class="needs-validation formEdicion" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="IdAutor" class="form-label fw-bold">Autor</label>
+                <select asp-for="IdAutor" class="form-control" asp-items="ViewBag.IdAutor">
+                    <option value="">Seleccione un autor</option>
+                </select>
+                <span asp-validation-for="IdAutor" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Isbn" class="form-label fw-bold">ISBN</label>
+                <select asp-for="Isbn" class="form-control" asp-items="ViewBag.Isbn">
+                    <option value="">Seleccione un ISBN</option>
+                </select>
+                <span asp-validation-for="Isbn" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

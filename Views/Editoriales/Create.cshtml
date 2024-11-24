@@ -1,0 +1,65 @@
+﻿@model CRUDXimenaCastanedaEF.Models.Editoriale
+
+@{
+    ViewData["Title"] = "Crear Editorial";
+}
+
+<h1 class="text-center mb-4">Crear Nueva Editorial</h1>
+
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Nit" class="form-label fw-bold">NIT</label>
+                <input asp-for="Nit" class="form-control" placeholder="Ingrese el NIT de la editorial" />
+                <span asp-validation-for="Nit" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre de la editorial" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Telefono" class="form-label fw-bold">Teléfono</label>
+                <input asp-for="Telefono" class="form-control" placeholder="Ingrese el teléfono de la editorial" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Direccion" class="form-label fw-bold">Dirección</label>
+                <input asp-for="Direccion" class="form-control" placeholder="Ingrese la dirección de la editorial" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="form-label fw-bold">Correo Electrónico</label>
+                <input asp-for="Email" class="form-control" placeholder="Ingrese el correo electrónico de la editorial" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Sitioweb" class="form-label fw-bold">Sitio Web</label>
+                <input asp-for="Sitioweb" class="form-control" placeholder="Ingrese el sitio web de la editorial" />
+                <span asp-validation-for="Sitioweb" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

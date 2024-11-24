@@ -1,0 +1,195 @@
+﻿@model IEnumerable<CRUDXimenaCastanedaEF.Models.Editoriale>
+
+@{
+    ViewData["Title"] = "Editoriales";
+}
+
+<link rel="stylesheet" href="~/css/site.css">
+
+<h1 class="titulo-centrado">Gestión de Editoriales</h1>
+@Html.AntiForgeryToken()
+
+
+<p>
+    <a asp-action="Create" class="btn-crear"><i class="fas fa-plus"></i></a>
+</p>
+
+
+<table class="table" id="example">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sitioweb)
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nit)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sitioweb)
+            </td>
+            <td>
+                    <a asp-action="Edit" class="btn btn-editar" asp-route-id="@item.Nit"><i class="fas fa-edit"></i></a> 
+                    <a asp-action="Details" class="btn btn-detalles" asp-route-id="@item.Nit"><i class="fas fa-eye"></i></a>
+                    <button class="btn btn-eliminar" onclick="confirmDelete('@item.Nit')">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    new DataTable('#example', {
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fas fa-copy"></i>',
+                        className: 'botonCopiar btn',
+                        exportOptions:{
+                            columns: [0,1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i class="fas fa-file-csv"></i>',
+                        className: 'botonCsv btn',
+                         exportOptions:{
+                            columns: [0,1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        className: 'botonExcel btn',
+                         exportOptions:{
+                            columns: [0,1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        className: 'botonPdf btn',
+                        exportOptions:{
+                            columns: [0,1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        className: 'botonPrint btn',
+                        exportOptions:{
+                            columns: [0,1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-filter"></i>',
+                        className: 'botonColvis btn'
+                    }
+                ]
+            }
+        },
+        language: {
+            "sEmptyTable": "No hay datos disponibles en la tabla",
+            "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            "sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
+            "sInfoFiltered": "(filtrado de _MAX_ entradas totales)",
+            "sLengthMenu": "Mostrar _MENU_ entradas",
+            "sLoadingRecords": "Cargando...",
+            "sProcessing": "Procesando...",
+            "sSearch": "Buscar:",
+            "sZeroRecords": "No se encontraron resultados"
+        },
+        scrollX: true,
+        initComplete: function (json, settings) {
+            $(".dt-buttons").removeClass("dt-buttons");
+            $(".dt-button").addClass("botones");
+        }
+    });
+    function confirmDelete(Nit) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'No podrás recuperar esta editorial después de eliminarla.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminarla!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Editoriales")' + '/' + Nit, // URL del controlador
+                    type: 'POST',
+                    data: {
+                        id: Nit,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Token anti-forgery
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'La editorial ha sido eliminada.',
+                                'success'
+                            ).then(() => {
+                                location.reload(); // Recargar la página después de eliminar
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                response.error,  // Mostrar el mensaje de error
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Error!',
+                            'Hubo un problema al intentar eliminar la editorial.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
+</script>

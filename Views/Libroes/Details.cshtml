@@ -1,0 +1,45 @@
+﻿@model CRUDXimenaCastanedaEF.Models.Libro
+
+@{
+    ViewData["Title"] = "Detalles del Libro";
+}
+
+<h1 class="text-center mb-4">Detalles del Libro</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg">
+                Información del Libro
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 fw-bold">Título</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Titulo)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Descripción</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Descripcion)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Autor</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.NombreAutor)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Publicación</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Publicacion)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Fecha de Registro</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.FechaRegistro)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Categoría</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CodigoCategoriaNavigation.CodigoCategoria)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Editorial</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.NitEditorialNavigation.Nit)</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Edit" asp-route-id="@Model?.Isbn" class="btn editar">Editar</a>
+            <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+        </div>
+    </div>
+</div>

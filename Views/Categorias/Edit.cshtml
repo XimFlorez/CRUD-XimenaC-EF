@@ -1,0 +1,34 @@
+﻿@model CRUDXimenaCastanedaEF.Models.Categoria
+
+@{
+    ViewData["Title"] = "Editar Categoría";
+}
+
+<h1 class="text-center mb-4">Editar Categoría</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Edit" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="CodigoCategoria" />
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+                <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre de la categoría" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

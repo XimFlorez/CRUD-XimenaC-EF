@@ -1,0 +1,36 @@
+﻿@model CRUDXimenaCastanedaEF.Models.LibrosAutore
+
+@{
+    ViewData["Title"] = "Detalles del Libro-Autor";
+}
+
+<h1 class="text-center mb-4">Detalles del Libro-Autor</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg">
+                Información del Libro y Autor
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 fw-bold">ID del Autor</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.IdAutorNavigation.IdAutor)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Nombre del Autor</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.IdAutorNavigation.Nombre)</dd>
+
+                    <dt class="col-sm-4 fw-bold">ISBN del Libro</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.IsbnNavigation.Isbn)</dd>
+
+                    <dt class="col-sm-4 fw-bold">Título del Libro</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.IsbnNavigation.Titulo)</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn editar">Editar</a>
+            <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+        </div>
+    </div>
+</div>

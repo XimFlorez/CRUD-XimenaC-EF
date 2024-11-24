@@ -1,0 +1,82 @@
+﻿@model CRUDXimenaCastanedaEF.Models.Libro
+
+@{
+    ViewData["Title"] = "Crear Libro";
+}
+
+<h1 class="text-center mb-4">Crear Nuevo Libro</h1>
+
+<div class="card shadow-sm p-4">
+    @* <h4 class="card-title text-center mb-4">Detalles del Libro</h4>
+    <hr /> *@
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Create" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Isbn" class="form-label fw-bold">ISBN</label>
+                    <input asp-for="Isbn" class="form-control" placeholder="Ingrese el ISBN del libro" />
+                    <span asp-validation-for="Isbn" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Titulo" class="form-label fw-bold">Título</label>
+                    <input asp-for="Titulo" class="form-control" placeholder="Ingrese el título del libro" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Descripcion" class="form-label fw-bold">Descripción</label>
+                    <textarea asp-for="Descripcion" class="form-control" placeholder="Ingrese una breve descripción del libro"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="NombreAutor" class="form-label fw-bold">Autor</label>
+                    <input asp-for="NombreAutor" class="form-control" placeholder="Ingrese el nombre del autor" />
+                    <span asp-validation-for="NombreAutor" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Publicacion" class="form-label fw-bold">Fecha de Publicación</label>
+                    <input asp-for="Publicacion" type="date" class="form-control" />
+                    <span asp-validation-for="Publicacion" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FechaRegistro" class="form-label fw-bold">Fecha de Registro</label>
+                    <input asp-for="FechaRegistro" type="date" class="form-control" />
+                    <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CodigoCategoria" class="form-label fw-bold">Categoría</label>
+                    <select asp-for="CodigoCategoria" class="form-select" asp-items="ViewBag.CodigoCategoria">
+                        <option value="">Seleccione una categoría</option>
+                    </select>
+                    <span asp-validation-for="CodigoCategoria" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="NitEditorial" class="form-label fw-bold">Editorial</label>
+                    <select asp-for="NitEditorial" class="form-select" asp-items="ViewBag.NitEditorial">
+                        <option value="">Seleccione una editorial</option>
+                    </select>
+                    <span asp-validation-for="NitEditorial" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

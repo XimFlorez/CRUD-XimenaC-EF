@@ -1,0 +1,195 @@
+﻿@model IEnumerable<CRUDXimenaCastanedaEF.Models.Libro>
+
+@{
+    ViewData["Title"] = "Libros";
+}
+
+<link rel="stylesheet" href="~/css/site.css">
+
+
+<h1 class="titulo-centrado">Gestión de Libros</h1>
+@Html.AntiForgeryToken()
+
+
+<p>
+    <a asp-action="Create" class="btn-crear"><i class="fas fa-plus"></i></a>
+</p>
+
+
+
+<table class="table" id="example">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Autor</th>
+            <th>Publicación</th>
+            <th>Fecha de Registro</th>
+            <th>Categoría</th>
+            <th>Editorial</th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Isbn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreAutor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publicacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoCategoriaNavigation.CodigoCategoria)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NitEditorialNavigation.Nit)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-editar" asp-route-id="@item.Isbn"><i class="fas fa-edit"></i></a> 
+                    <a asp-action="Details" class="btn btn-detalles" asp-route-id="@item.Isbn"><i class="fas fa-eye"></i></a>
+                    <button class="btn btn-eliminar" onclick="confirmDelete('@item.Isbn')">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    new DataTable('#example', {
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fas fa-copy"></i>',
+                        className: 'botonCopiar btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4,5,6,7]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i class="fas fa-file-csv"></i>',
+                        className: 'botonCsv btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        className: 'botonExcel btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        className: 'botonPdf btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        className: 'botonPrint btn',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-filter"></i>',
+                        className: 'botonColvis btn'
+                    }
+                ]
+            }
+        },
+        language: {
+            "sEmptyTable": "No hay datos disponibles en la tabla",
+            "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            "sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
+            "sInfoFiltered": "(filtrado de _MAX_ entradas totales)",
+            "sLengthMenu": "Mostrar _MENU_ entradas",
+            "sLoadingRecords": "Cargando...",
+            "sProcessing": "Procesando...",
+            "sSearch": "Buscar:",
+            "sZeroRecords": "No se encontraron resultados"
+        },
+        scrollX: true,
+        initComplete: function (json, settings) {
+            $(".dt-buttons").removeClass("dt-buttons");
+            $(".dt-button").addClass("botones");
+        }
+    });
+   function confirmDelete(Isbn) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'No podrás recuperar este libro después de eliminarlo.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminarlo!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '@Url.Action("Delete", "Libroes")' + '/' + Isbn, // Acción de eliminación
+                type: 'POST',
+                data: {
+                    id: Isbn,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Token anti-forgery
+                },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire(
+                            'Eliminado!',
+                            'El libro ha sido eliminado.',
+                            'success'
+                        ).then(() => {
+                            location.reload(); // Recargar la página después de eliminar
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            response.error || 'Hubo un problema al intentar eliminar el libro.',
+                            'error'
+                        );
+                    }
+                },
+                error: function () {
+                    Swal.fire(
+                        'Error!',
+                        'Hubo un problema al intentar eliminar el libro.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+}
+
+</script>
